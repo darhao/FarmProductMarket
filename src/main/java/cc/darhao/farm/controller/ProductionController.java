@@ -62,13 +62,13 @@ public class ProductionController {
 	
 	@ResponseBody
 	@RequestMapping("/list")
-	public List<ProductionVO> list(String name, String supplier, String type, Integer page, String orderBy) {
+	public List<ProductionVO> list(String key, Integer page, String orderBy) {
 		if(page == null || page < 0) {
 			ResultUtil.failed("错误：页数为格式错误");
 			return null;
 		}
 		try {
-			return productionService.list(name, supplier, type, page, orderBy);
+			return productionService.list(key, page, orderBy);
 		} catch (Exception e) {
 			ResultUtil.failed("出错", e);
 			return null;

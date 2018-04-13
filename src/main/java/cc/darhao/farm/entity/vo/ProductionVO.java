@@ -34,5 +34,4 @@ public class ProductionVO extends Production {
 	public void setCreateTimeString(String createTimeString) {
 		this.createTimeString = createTimeString;
 	}
-	
 }

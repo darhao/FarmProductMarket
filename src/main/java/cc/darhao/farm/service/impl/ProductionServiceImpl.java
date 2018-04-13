@@ -59,41 +59,38 @@ public class ProductionServiceImpl implements ProductionService {
 
 	
 	@Override
-	public List<ProductionVO> list(String name, String supplier, String type, Integer page, String orderBy) {
+	public List<ProductionVO> list(String key,Integer page, String orderBy) {
 		//初始化filler，获取数据
 		filler.init();
 		
 		List<User> users = filler.getUsers();
 		
 		ProductionExample productionExample = new ProductionExample();
-		ProductionExample.Criteria productionCriteria = productionExample.createCriteria();
 		
 		 //排序
-		if(orderBy == null) {
+		if(orderBy == null || orderBy.equals("")) {
 			//默认按时间降序
 			productionExample.setOrderByClause("create_time desc");
 		}else {
 			productionExample.setOrderByClause(orderBy);
 		}
 		
-		 //筛选品名
-		if(name != null && !name.equals("")) {
-			productionCriteria.andNameLike(name);
-		}
-		
-		 //筛选供应商名
-		if(supplier != null && !supplier.equals("")) {
-			for (User user : users) {
-				if(user.getName().contains(supplier)) {
-					productionCriteria.andSupplierEqualTo(user.getId());
-					break;
+		try {
+			//通配搜索
+			if(key != null && !key.equals("")) {
+				//匹配供应商
+				for (User user : users) {
+					if(user.getName().contains(key)) {
+						productionExample.or().andSupplierEqualTo(user.getId());
+						break;
+					}
 				}
+				//匹配农产品名称
+				productionExample.or().andNameEqualTo(key);
+				//匹配类型
+				productionExample.or().andTypeEqualTo(Integer.parseInt(key));
 			}
-		}
-		
-		 //筛选类型
-		if(type != null && !type.equals("")) {
-			productionCriteria.andTypeEqualTo(Integer.parseInt(type));
+		} catch (Exception e) {
 		}
 		
 		//分页

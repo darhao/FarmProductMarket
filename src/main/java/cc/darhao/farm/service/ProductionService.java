@@ -28,6 +28,6 @@ public interface ProductionService {
 	 * @param ordBy 可以根据name，supplier，type，create_time(默认)排序，支持asc升序，desc降序
 	 * @return 农产品VO列表
 	 */
-	List<ProductionVO> list(String name, String supplier, String type, Integer page, String orderBy);
+	List<ProductionVO> list(String key, Integer page, String orderBy);
 	
 }
