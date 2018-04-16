@@ -1,0 +1,61 @@
+.yahei{
+	font-family: "微软雅黑";
+}
+
+.c{
+	text-align: center;
+	 line-height: 48px;
+    height: 48px;
+    background-color: #04BE02;
+    color: #FFFFFF;
+    font-family: "微软雅黑";
+    font-size: 20px;	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.top {
+	position: fixed;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 10px;
+    line-height: 48px;
+    height: 48px;
+    background-color: #04BE02;
+    color: #FFFFFF;
+    font-family: "微软雅黑";
+    font-size: 20px;
+    z-index: 100;
+}
+
+.top a{
+	color:white;
+	text-decoration:none;
+}
+.search-bar {
+	position: fixed;
+	width: 100%;
+	top: 48px;
+	z-index: 100;
+}
+.slider-c {
+	line-height: 48px;
+    height: 48px;
+	font-size: 20px;
+	color: white;
+	background-color: #04BE02;
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.result-table {
+position: absolute;
+top: 80px;
+margin-bottom: 48px;
+}

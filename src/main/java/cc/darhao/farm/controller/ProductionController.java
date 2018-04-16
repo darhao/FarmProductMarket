@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cc.darhao.farm.entity.vo.Page;
 import cc.darhao.farm.entity.vo.ProductionVO;
 import cc.darhao.farm.service.ProductionService;
 import cc.darhao.farm.util.ResultUtil;
@@ -25,9 +26,9 @@ public class ProductionController {
 	private ProductionService productionService;
 	
 	
-	@RequestMapping("/goProduction")
-	public ModelAndView goConfig() {
-		return new ModelAndView("production/goProduction");
+	@RequestMapping("/goHome")
+	public ModelAndView goHome() {
+		return new ModelAndView("production/goHome");
 	}
 	
 	
@@ -48,13 +49,16 @@ public class ProductionController {
 			ResultUtil.failed("id无法转换成数字");
 			return ResultUtil.failed();
 		}
-		int result = productionService.offline(idList);
-		if(result == 1) {
-			return ResultUtil.succeed();
-		}else if(result == 0){
-			ResultUtil.failed("只有管理员才能下架非自己上架的农产品");
-			return ResultUtil.failed();
-		}else {
+		try {
+			int result = productionService.offline(idList);
+			if(result == 1) {
+				return ResultUtil.succeed();
+			}else{
+				ResultUtil.failed("只有管理员才能下架非自己上架的农产品");
+				return ResultUtil.failed("failed_access_denied");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			return ResultUtil.failed();
 		}
 	}
@@ -62,7 +66,7 @@ public class ProductionController {
 	
 	@ResponseBody
 	@RequestMapping("/list")
-	public List<ProductionVO> list(String key, Integer page, String orderBy) {
+	public Page<ProductionVO> list(String key, Integer page, String orderBy) {
 		if(page == null || page < 0) {
 			ResultUtil.failed("错误：页数为格式错误");
 			return null;

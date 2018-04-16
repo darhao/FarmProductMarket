@@ -1,5 +1,6 @@
 package cc.darhao.farm.entity.filler;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +48,43 @@ public class ProductionToProductionVOFiller extends EntityFieldFiller<Production
 		for (Type type : types) {
 			if(type.getId() == productionVO.getType()) {
 				productionVO.setTypeName(type.getName());
+				break;
 			}
 		}
 		for (User user : users) {
 			if(user.getId() == productionVO.getSupplier()) {
 				productionVO.setSupplierName(user.getName());
+				break;
 			}
 		}
-		productionVO.setCreateTimeString(DateUtil.yyyyMMddHHmmss(productionVO.getCreateTime()));
+		productionVO.setCreateTimeString(DateUtil.toPopularString(productionVO.getCreateTime()));
 		return productionVO;
+	}
+	
+	
+	@Override
+	public Production unfill(ProductionVO productionVO) {
+		Production production = new Production();
+		FieldUtil.copy(productionVO, production);
+		for (Type type : types) {
+			if(type.getName().equals(productionVO.getTypeName())) {
+				production.setType(type.getId());
+				break;
+			}
+		}
+		for (User user : users) {
+			if(user.getName().equals(productionVO.getSupplierName())) {
+				production.setSupplier(user.getId());
+				break;
+			}
+		}
+		try {
+			production.setCreateTime(DateUtil.yyyyMMddHHmmss(productionVO.getCreateTimeString()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		production.setIsOffline(false);
+		return production;
 	}
 
 	

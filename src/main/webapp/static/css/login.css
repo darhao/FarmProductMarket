@@ -1,0 +1,55 @@
+.yahei{
+	font-family: "微软雅黑";
+}
+
+.top-content {
+	font-size: medium;
+	color: #666666;
+	margin: 15px 0 0 15px;
+}
+
+#error{
+	color: red;
+	display: none;
+}
+
+#container {
+	margin: 30px 10px;
+	text-align: center;
+}
+
+.e {
+	margin: 10px 0;
+}
+
+.text {
+	color: #5184BC;
+}
+
+.time-text{
+	color: #AAAAAA;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+
+a:hover {
+	text-decoration: none;
+}
+
+.login-box {
+	text-align: center;
+	color: #5184BC;
+	text-decoration: none;
+}
+
+.reg,.forget {
+	list-style-type: none;
+	display: inline;
+}

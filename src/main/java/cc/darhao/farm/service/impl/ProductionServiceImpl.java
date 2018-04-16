@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import cc.darhao.farm.entity.Production;
 import cc.darhao.farm.entity.ProductionExample;
+import cc.darhao.farm.entity.Type;
 import cc.darhao.farm.entity.User;
 import cc.darhao.farm.entity.filler.ProductionToProductionVOFiller;
+import cc.darhao.farm.entity.vo.Page;
 import cc.darhao.farm.entity.vo.ProductionVO;
 import cc.darhao.farm.interceptor.LoginInterceptor;
 import cc.darhao.farm.mapper.ProductionMapper;
@@ -59,11 +61,12 @@ public class ProductionServiceImpl implements ProductionService {
 
 	
 	@Override
-	public List<ProductionVO> list(String key,Integer page, String orderBy) {
+	public Page<ProductionVO> list(String key, Integer page, String orderBy) {
 		//初始化filler，获取数据
 		filler.init();
 		
 		List<User> users = filler.getUsers();
+		List<Type> types = filler.getTypes();
 		
 		ProductionExample productionExample = new ProductionExample();
 		
@@ -75,22 +78,24 @@ public class ProductionServiceImpl implements ProductionService {
 			productionExample.setOrderByClause(orderBy);
 		}
 		
-		try {
-			//通配搜索
-			if(key != null && !key.equals("")) {
-				//匹配供应商
-				for (User user : users) {
-					if(user.getName().contains(key)) {
-						productionExample.or().andSupplierEqualTo(user.getId());
-						break;
-					}
+		//通配搜索(非下架产品)
+		if(key != null && !key.equals("")) {
+			//匹配农产品名称
+			productionExample.or().andNameEqualTo(key).andIsOfflineEqualTo(false);
+			//匹配供应商
+			for (User user : users) {
+				if(user.getName().contains(key)) {
+					productionExample.or().andSupplierEqualTo(user.getId()).andIsOfflineEqualTo(false);
+					break;
 				}
-				//匹配农产品名称
-				productionExample.or().andNameEqualTo(key);
-				//匹配类型
-				productionExample.or().andTypeEqualTo(Integer.parseInt(key));
 			}
-		} catch (Exception e) {
+			//匹配类型
+			for (Type type : types) {
+				if(type.getName().contains(key)) {
+					productionExample.or().andTypeEqualTo(type.getId()).andIsOfflineEqualTo(false);
+					break;
+				}
+			}
 		}
 		
 		//分页
@@ -109,7 +114,29 @@ public class ProductionServiceImpl implements ProductionService {
 		}
 		
 		//填充
-		return filler.fill(productions);
+		Page<ProductionVO> pageData = new Page<ProductionVO>();
+		pageData.setData(filler.fill(productions));
+		pageData.setPageNo(page + 1);
+		pageData.setPageSum(lastPageNo + 1);
+		return pageData;
+	}
+
+
+	@Override
+	public int storage(List<ProductionVO> productionVOs) {
+		//初始化filler，获取数据
+		filler.init();
+		
+		List<Production> productions =  filler.unFill(productionVOs);
+		
+		for (Production production : productions) {
+			int result = productionMapper.insert(production);
+			if(result == 0) {
+				return 0;
+			}
+		}
+		
+		return 1;
 	}
 
 }

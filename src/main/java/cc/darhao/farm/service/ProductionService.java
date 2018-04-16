@@ -2,6 +2,7 @@ package cc.darhao.farm.service;
 
 import java.util.List;
 
+import cc.darhao.farm.entity.vo.Page;
 import cc.darhao.farm.entity.vo.ProductionVO;
 
 /**
@@ -28,6 +29,13 @@ public interface ProductionService {
 	 * @param ordBy 可以根据name，supplier，type，create_time(默认)排序，支持asc升序，desc降序
 	 * @return 农产品VO列表
 	 */
-	List<ProductionVO> list(String key, Integer page, String orderBy);
+	Page<ProductionVO> list(String key, Integer page, String orderBy);
+	
+	/**
+	 * 农产品上架
+	 * @param productionVOs 农产品列表
+	 * @return 1表示成功，0表示失败
+	 */
+	int storage(List<ProductionVO> productionVOs);
 	
 }
