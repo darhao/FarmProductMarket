@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cc.darhao.farm.controller.MainController">
+   <children>
+  	  <TextField fx:id="userTf" layoutX="54.0" layoutY="25.0" prefHeight="23.0" prefWidth="83.0" />
+      <PasswordField fx:id="passwordPf" layoutX="186.0" layoutY="25.0" prefHeight="23.0" prefWidth="83.0" />
+      <Button fx:id="loginBt" layoutX="299.0" layoutY="25.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="23.0" prefWidth="66.0" text="登录" />
+      <TableView fx:id="productionTb" layoutX="21.0" layoutY="115.0" prefHeight="397.0" prefWidth="354.0">
+         <columns>
+            <TableColumn fx:id="nameCol" prefWidth="54.0" text="品名" />
+            <TableColumn fx:id="typeCol" prefWidth="50.0" text="类型" />
+            <TableColumn fx:id="weightCol" prefWidth="53.0" text="重量" />
+            <TableColumn fx:id="createTimeCol" prefWidth="134.0" text="上称时间" />
+            <TableColumn fx:id="isOnlineCol" prefWidth="62.0" text="已发布" />
+         </columns>
+      </TableView>
+      <Label layoutX="27.0" layoutY="29.0" text="用户" />
+      <Label layoutX="157.0" layoutY="29.0" text="密码" />
+      <Separator layoutX="25.0" layoutY="63.0" prefHeight="4.0" prefWidth="340.0" />
+      <Button fx:id="weighBt" layoutX="299.0" layoutY="78.0" mnemonicParsing="false" onAction="#onClickWeigh" prefHeight="23.0" prefWidth="66.0" text="开始称重" />
+      <ChoiceBox fx:id="typeCb" layoutX="186.0" layoutY="78.0" prefHeight="23.0" prefWidth="83.0" />
+      <Label layoutX="157.0" layoutY="82.0" text="类型" />
+      <Label layoutX="27.0" layoutY="82.0" text="品名" />
+      <TextField fx:id="nameTf" layoutX="54.0" layoutY="78.0" prefHeight="23.0" prefWidth="83.0" />
+      <Separator layoutX="26.0" layoutY="603.0" prefHeight="4.0" prefWidth="348.0" />
+      <Label layoutX="26.0" layoutY="578.0" text="上称:" />
+      <Label fx:id="weighLb" layoutX="59.0" layoutY="578.0" prefHeight="15.0" prefWidth="106.0" text="0" />
+      <Label fx:id="onlineLb" layoutX="264.0" layoutY="578.0" prefHeight="15.0" prefWidth="106.0" text="0" />
+      <Label layoutX="231.0" layoutY="578.0" text="发布:" />
+      <RadioButton fx:id="autoRb" disable="true" layoutX="26.0" layoutY="642.0" mnemonicParsing="false" selected="true" text="即时">
+         <toggleGroup>
+            <ToggleGroup fx:id="a" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="intervalRb" disable="true" layoutX="99.0" layoutY="642.0" mnemonicParsing="false" text="间隔" toggleGroup="$a" />
+      <RadioButton fx:id="manualRb" disable="true" layoutX="249.0" layoutY="642.0" mnemonicParsing="false" selected="true" text="手动" toggleGroup="$a" />
+      <TextField fx:id="intervalTf" disable="true" layoutX="147.0" layoutY="638.0" prefHeight="23.0" prefWidth="45.0" text="1" />
+      <Button fx:id="onlineBt" disable="true" layoutX="298.0" layoutY="638.0" mnemonicParsing="false" onAction="#onClickOnline" prefHeight="23.0" prefWidth="66.0" text="发布" />
+      <Label layoutX="196.0" layoutY="642.0" text="分钟" />
+      <Slider fx:id="speedSd" layoutX="30.0" layoutY="548.0" prefHeight="16.0" prefWidth="340.0" />
+      <Label layoutX="26.0" layoutY="616.0" text="发布模式: " />
+      <Label layoutX="26.0" layoutY="522.0" text="模拟上称速度: " />
+      <Label fx:id="modeLb" layoutX="85.0" layoutY="616.0" text="当前为即时模式" />
+   </children>
+</AnchorPane>

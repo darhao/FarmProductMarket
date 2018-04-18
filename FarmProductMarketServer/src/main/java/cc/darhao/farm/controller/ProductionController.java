@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cc.darhao.farm.annoation.Open;
 import cc.darhao.farm.entity.vo.Page;
 import cc.darhao.farm.entity.vo.ProductionVO;
 import cc.darhao.farm.service.ProductionService;
@@ -26,6 +27,7 @@ public class ProductionController {
 	private ProductionService productionService;
 	
 	
+	@Open
 	@RequestMapping("/goHome")
 	public ModelAndView goHome() {
 		return new ModelAndView("production/goHome");
@@ -64,6 +66,7 @@ public class ProductionController {
 	}
 	
 	
+	@Open
 	@ResponseBody
 	@RequestMapping("/list")
 	public Page<ProductionVO> list(String key, Integer page, String orderBy) {

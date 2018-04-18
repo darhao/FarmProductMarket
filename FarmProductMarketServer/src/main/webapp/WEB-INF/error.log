@@ -208,3 +208,8 @@
 2018-04-16 14:59:49.147 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 33 - failed_access_denied
 2018-04-16 14:59:51.365 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 33 - 只有管理员才能下架非自己上架的农产品
 2018-04-16 14:59:51.365 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 33 - failed_access_denied
+2018-04-18 01:47:46.177 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 28 - failed
+2018-04-18 01:47:48.387 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 28 - failed
+2018-04-18 01:50:48.425 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 28 - failed
+2018-04-18 21:10:02.699 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 28 - failed
+2018-04-18 21:29:31.660 ERROR cc.darhao.farm.util.ResultUtil - failed() line: 28 - failed

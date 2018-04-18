@@ -25,14 +25,15 @@ public class StorageTimer {
 	@Autowired
 	private ProductionService productionService;
 
+	//Jafka服务器节点列表
 	private static final String[] JAFKAS_IP = new String[] { "darhao.cc", "hzu580.cn", "www.ikataomoi.com" };
-
+	//Jafka消费者列表
 	private static final List<SimpleConsumer> consumers = new ArrayList<SimpleConsumer>();
-
+	//Jafka服务器端口
 	private static final int JAFKAS_PORT = 9092;
-
+	//Jafka消费信息偏移量
 	private static long[] offsets = new long[] { 0, 0, 0 };
-
+	//Jafka话题
 	private static final String TOPIC = "farm";
 
 	/**
@@ -41,7 +42,7 @@ public class StorageTimer {
 	@Scheduled(cron = "0/3 * * * * ?")
 	public void consume(){
 		List<String> strings = new ArrayList<String>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < consumers.size(); i++) {
 			FetchRequest request = new FetchRequest(TOPIC, 0, offsets[i]);
 			try {
 				for (MessageAndOffset msg : consumers.get(i).fetch(request)) {

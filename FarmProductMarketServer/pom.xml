@@ -18,7 +18,7 @@
 
 
 	<build>
-		<finalName>eps_server</finalName>
+		<finalName>FarmProductMarket</finalName>
 		<plugins>
 			<!-- 修改默认JRE -->
 			<plugin>
