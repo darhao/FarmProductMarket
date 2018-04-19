@@ -93,9 +93,9 @@ public class MainController implements Initializable {
 	private TextField intervalTf;
 	
 	//IP地址
-	private static final String IP = "39.108.231.15";
+	private static final String IP = "localhost";
 	//端口
-	private static int PORT = 80;
+	private static int PORT = 8080;
 	//基地址
 	private static final String BASE = "http://"+ IP +":"+ PORT + "/FarmProductMarket";
 	//表格数据
