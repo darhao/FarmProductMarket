@@ -93,11 +93,11 @@ public class MainController implements Initializable {
 	private TextField intervalTf;
 	
 	//IP地址
-	private static final String IP = "localhost";
+	public static final String IP = "localhost";
 	//端口
-	private static int PORT = 8080;
+	public static int PORT = 8080;
 	//基地址
-	private static final String BASE = "http://"+ IP +":"+ PORT + "/FarmProductMarket";
+	public static final String BASE = "http://"+ IP +":"+ PORT + "/FarmProductMarket";
 	//表格数据
 	private ObservableList<ProductionProperties> productionProperties = FXCollections.observableArrayList();
 	
