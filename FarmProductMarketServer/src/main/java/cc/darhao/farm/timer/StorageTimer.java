@@ -34,7 +34,7 @@ public class StorageTimer {
 	//Jafka消费信息偏移量
 	private static long[] offsets = new long[] { 0, 0, 0 };
 	//Jafka话题
-	private static final String TOPIC = "farm";
+	private static final String TOPIC = "farmss";
 
 	/**
 	 * 每隔N秒消费来自Jafka集群的消息

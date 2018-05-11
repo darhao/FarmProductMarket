@@ -1,15 +1,20 @@
 package cc.darhao.farm.thread;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cc.darhao.farm.controller.MainController;
 import cc.darhao.farm.entity.ProductionProperties;
 import cc.darhao.farm.entity.ProductionVO;
+import cc.darhao.farm.util.HttpUtils;
+import cc.darhao.farm.util.HttpUtils.MyCallback;
 import io.jafka.producer.Producer;
 import io.jafka.producer.ProducerConfig;
 import io.jafka.producer.StringProducerData;
@@ -23,6 +28,9 @@ import javafx.collections.ObservableList;
  * @author 沫熊工作室 <a href="http://www.darhao.cc">www.darhao.cc</a>
  */
 public class OnlineThread extends Thread {
+	
+	//0：jafak模式，1：传统模式
+	public static int UPDATE_MODE = 1;
 	
 	//最后一次发布的列表项索引
 	private int lastOnlineIndex = 0;
@@ -44,7 +52,7 @@ public class OnlineThread extends Thread {
 	//Jafka服务器端口
 	private static final int JAFKAS_PORT = 9092;
 	//Jafka话题
-	private static final String TOPIC = "farm";
+	private static final String TOPIC = "farmss";
 	
 	//自动发布模式间隔时间【单位：毫秒】（防止过度消耗cpu）
 	private static final long AUTO_MODE_INTERVAL = 10;
@@ -108,7 +116,8 @@ public class OnlineThread extends Thread {
 	private void online() {
 		//构造发布的消息
         StringProducerData data = new StringProducerData(TOPIC);
-		//取出未发布元素
+		List<ProductionVO> vos = new ArrayList<ProductionVO>();
+        //取出未发布元素
         synchronized (productionProperties) {
         	for (int i = lastOnlineIndex; i < productionProperties.size(); i++) {
     			ProductionProperties properties = productionProperties.get(i);
@@ -122,15 +131,44 @@ public class OnlineThread extends Thread {
     			productionVO.setCreateTimeString(properties.getCreateTime());
     			productionVO.setWeight(properties.getWeight());
     			productionVO.setSupplierName(user);
-    			String json = JSONObject.toJSONString(productionVO);
-    			data.add(json);
+    			vos.add(productionVO);
+    			
     		}
         	//更新索引
 			lastOnlineIndex = productionProperties.size();
 		}
-		send(data);
+        
+        if(UPDATE_MODE == 0) {
+        	for (ProductionVO productionVO : vos) {
+        		String json = JSONObject.toJSONString(productionVO);
+    			data.add(json);
+			}
+        	send(data);
+        }else {
+        	sendInTraditionalWay(vos);
+        }
 	}
 
+	
+	private void sendInTraditionalWay(List<ProductionVO> vos) {
+		Map<String, String> postBody = new HashMap<String, String>();
+		postBody.put("data", JSONArray.toJSONString(vos));
+		HttpUtils.asynRequest(MainController.BASE + "/production/online", postBody, new MyCallback() {
+			
+			@Override
+			public void onSucceed(String data) {
+				if(!data.contains("succeed")) {
+					System.err.println(data);
+				}
+			}
+			
+			@Override
+			public void onFailed() {
+				System.err.println("调用HTTP上传失败");
+			}
+		});
+	}
+	
 
 	private void send(StringProducerData data) {
 		//循环发送到一个节点

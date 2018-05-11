@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
+
 import cc.darhao.farm.annoation.Open;
 import cc.darhao.farm.entity.vo.Page;
 import cc.darhao.farm.entity.vo.ProductionVO;
@@ -80,5 +82,21 @@ public class ProductionController {
 			ResultUtil.failed("出错", e);
 			return null;
 		}
+	}
+	
+	
+	@Open
+	@ResponseBody
+	@RequestMapping("/online")
+	public ResultUtil online(String data) {
+		List<ProductionVO> dataList = JSONObject.parseArray(data, ProductionVO.class);
+		if(dataList != null) {
+			if (productionService.storage(dataList) == 1) {
+				return ResultUtil.succeed();
+			}else {
+				return ResultUtil.failed();
+			}
+		}
+		return ResultUtil.failed("参数JSON格式不对");
 	}
 }

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import cc.darhao.dautils.api.ResourcesUtil;
 import cc.darhao.farm.controller.MainController;
+import cc.darhao.farm.thread.OnlineThread;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +18,9 @@ public class Main extends Application{
 
 	private MainController mainController;
 	
-	public static final String TITLE = "农产品称重端 - ";
+	public static String MODE = OnlineThread.UPDATE_MODE == 0 ? "Jafka模式" : "传统模式";
+	
+	public static String TITLE = "农产品称重端 - " + MODE + " - ";
 	
 
 	@Override
